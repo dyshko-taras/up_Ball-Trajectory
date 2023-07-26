@@ -1,14 +1,12 @@
 package com.ballisticmyach.ball_trajectory;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.ballisticmyach.ball_trajectory.tools.GameSettings;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
+import com.ballisticmyach.ball_trajectory.screens.*;
 
 public class Main extends Game {
 
@@ -22,7 +20,7 @@ public class Main extends Game {
 	public void create() {
 		initAssets();
 		setSettings();
-//		this.setScreen(new MainMenuScreen(this));
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	public void render() {

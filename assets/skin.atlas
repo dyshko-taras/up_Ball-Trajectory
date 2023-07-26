@@ -1,0 +1,145 @@
+
+skin.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+line_menu
+  rotate: false
+  xy: 1, 1
+  size: 1440, 2007
+  orig: 1440, 2007
+  offset: 0, 0
+  index: -1
+
+skin2.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+font24
+  rotate: false
+  xy: 509, 697
+  size: 506, 122
+  orig: 506, 122
+  offset: 0, 0
+  index: -1
+font24_white
+  rotate: false
+  xy: 1203, 1710
+  size: 506, 122
+  orig: 506, 122
+  offset: 0, 0
+  index: -1
+font32
+  rotate: false
+  xy: 1203, 1834
+  size: 506, 187
+  orig: 506, 187
+  offset: 0, 0
+  index: -1
+font32_white
+  rotate: false
+  xy: 1, 243
+  size: 506, 187
+  orig: 506, 187
+  offset: 0, 0
+  index: -1
+font48
+  rotate: false
+  xy: 1, 432
+  size: 506, 387
+  orig: 506, 387
+  offset: 0, 0
+  index: -1
+achievements
+  rotate: false
+  xy: 243, 49
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 1, 821
+  size: 1200, 1200
+  orig: 1200, 1200
+  offset: 0, 0
+  index: -1
+ball
+  rotate: false
+  xy: 1203, 810
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+box
+  rotate: false
+  xy: 1, 1
+  size: 240, 240
+  orig: 240, 240
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 1711, 1733
+  size: 288, 288
+  orig: 288, 288
+  offset: 0, 0
+  index: -1
+en
+  rotate: false
+  xy: 1203, 1004
+  size: 288, 288
+  orig: 288, 288
+  offset: 0, 0
+  index: -1
+line
+  rotate: false
+  xy: 1813, 529
+  size: 5, 1202
+  orig: 5, 1202
+  offset: 0, 0
+  index: -1
+musikOn
+  rotate: false
+  xy: 1493, 1100
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+musinOff
+  rotate: false
+  xy: 1397, 810
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 1203, 1294
+  size: 414, 414
+  orig: 414, 414
+  offset: 0, 0
+  index: -1
+return
+  rotate: false
+  xy: 1619, 1516
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+setting
+  rotate: false
+  xy: 1619, 1322
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+star
+  rotate: false
+  xy: 509, 292
+  size: 420, 403
+  orig: 420, 403
+  offset: 0, 0
+  index: -1

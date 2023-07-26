@@ -1,0 +1,154 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	font24: {
+		file: font24.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	font24_white: {
+		file: font24_white.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	font32: {
+		file: font32.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	font32_white: {
+		file: font32_white.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	font48: {
+		file: font48.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	RGBA_0_0_0_255: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	RGBA_20_27_37_255: {
+		r: 0.078431375
+		g: 0.105882354
+		b: 0.14509805
+		a: 1
+	}
+	RGBA_255_104_1_255: {
+		r: 1
+		g: 0.40784314
+		b: 0.003921569
+		a: 1
+	}
+	RGBA_255_255_255_255: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
+	achievements: {
+		region: achievements
+		minWidth: 48
+		minHeight: 48
+	}
+	ball: {
+		region: ball
+		minWidth: 48
+		minHeight: 48
+	}
+	box: {
+		region: box
+		minWidth: 60
+		minHeight: 60
+	}
+	br: {
+		region: br
+		minWidth: 72
+		minHeight: 72
+	}
+	en: {
+		region: en
+		minWidth: 72
+		minHeight: 72
+	}
+	line: {
+		region: line
+		minWidth: 4
+		minHeight: 2000
+	}
+	line_menu: {
+		region: line_menu
+		minWidth: 360
+		minHeight: 500
+	}
+	musikOn: {
+		region: musikOn
+		minWidth: 48
+		minHeight: 48
+	}
+	musinOff: {
+		region: musinOff
+		minWidth: 48
+		minHeight: 48
+	}
+	play: {
+		region: play
+		minWidth: 207
+		minHeight: 207
+	}
+	return: {
+		region: return
+		minWidth: 48
+		minHeight: 48
+	}
+	setting: {
+		region: setting
+		minWidth: 48
+		minHeight: 48
+	}
+	star: {
+		region: star
+		minWidth: 105
+		minHeight: 100
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: font48
+	}
+	font48: {
+		parent: default
+		font: font48
+		fontColor: RGBA_255_255_255_255
+	}
+	font32: {
+		font: font32
+	}
+	font32_white: {
+		font: font32_white
+	}
+	font24: {
+		font: font24
+	}
+	font24_white: {
+		font: font24_white
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}
