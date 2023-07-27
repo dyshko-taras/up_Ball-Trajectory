@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.tools.GameSettings;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
 
 public class AchievScreen implements Screen {
@@ -125,6 +126,7 @@ public class AchievScreen implements Screen {
         achievementsButton.setScaling(Scaling.fit);
         table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).expand().align(Align.bottomRight);
 
+        setData();
         setClickListeners();
 
         container.setActor(table);
@@ -211,5 +213,11 @@ public class AchievScreen implements Screen {
         labelStatistics.setText(Localization.getLoc(Localization.STATISTICS));
         labelTimesPlayed.setText(Localization.getLoc(Localization.TIMES_PLAYED));
         labelBestScore.setText(Localization.getLoc(Localization.BEST_SCORE));
+    }
+
+
+    private void setData() {//установка даних в GameSettings
+        numTimesPlayed.setText(GameSettings.getPlayGameTimes());
+        numBestScore.setText(GameSettings.getBestScore());
     }
 }

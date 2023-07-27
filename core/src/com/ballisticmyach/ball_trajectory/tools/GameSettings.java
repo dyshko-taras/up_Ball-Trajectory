@@ -38,11 +38,11 @@ public class GameSettings {
     }
 
     //score
-    public static int getMaxScore() {
+    public static int getBestScore() {
         return preferences.getInteger(KEY_SCORE, 0);
     }
 
-    public static void setMaxScore(int score) {
+    public static void setBestScore(int score) {
         preferences.putInteger(KEY_SCORE, score);
         preferences.flush();
     }
