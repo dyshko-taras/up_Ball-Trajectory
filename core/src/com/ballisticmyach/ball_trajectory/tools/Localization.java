@@ -2,7 +2,7 @@ package com.ballisticmyach.ball_trajectory.tools;
 
 public class Localization {
 
-    public static final int SETTING = 0;
+    public static final int SETTINGS = 0;
     public static final int STATISTICS = 1;
     public static final int TIMES_PLAYED = 2;
     public static final int BEST_SCORE = 3;
@@ -11,7 +11,7 @@ public class Localization {
 
 
     public static final String[] EN = {
-            "SETTING",
+            "SETTINGS",
             "STATISTICS",
             "TIMES PLAYED",
             "BEST SCORE",

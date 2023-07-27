@@ -19,126 +19,133 @@ filter: Linear, Linear
 repeat: none
 font24
   rotate: false
-  xy: 509, 697
+  xy: 509, 682
   size: 506, 122
   orig: 506, 122
   offset: 0, 0
   index: -1
 font24_white
   rotate: false
-  xy: 1203, 1710
+  xy: 1203, 1695
   size: 506, 122
   orig: 506, 122
   offset: 0, 0
   index: -1
 font32
   rotate: false
-  xy: 1203, 1834
+  xy: 1203, 1819
   size: 506, 187
   orig: 506, 187
   offset: 0, 0
   index: -1
 font32_white
   rotate: false
-  xy: 1, 243
+  xy: 1, 228
   size: 506, 187
   orig: 506, 187
   offset: 0, 0
   index: -1
+font32_white_border
+  rotate: false
+  xy: 1, 1
+  size: 505, 225
+  orig: 505, 225
+  offset: 0, 0
+  index: -1
 font48
   rotate: false
-  xy: 1, 432
+  xy: 1, 417
   size: 506, 387
   orig: 506, 387
   offset: 0, 0
   index: -1
 achievements
   rotate: false
-  xy: 243, 49
+  xy: 1493, 1085
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
 background
   rotate: false
-  xy: 1, 821
+  xy: 1, 806
   size: 1200, 1200
   orig: 1200, 1200
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 1203, 810
+  xy: 1493, 891
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 1, 1
+  xy: 1203, 747
   size: 240, 240
   orig: 240, 240
   offset: 0, 0
   index: -1
 br
   rotate: false
-  xy: 1711, 1733
+  xy: 1711, 1718
   size: 288, 288
   orig: 288, 288
   offset: 0, 0
   index: -1
 en
   rotate: false
-  xy: 1203, 1004
+  xy: 1203, 989
   size: 288, 288
   orig: 288, 288
   offset: 0, 0
   index: -1
 line
   rotate: false
-  xy: 1813, 529
+  xy: 1687, 103
   size: 5, 1202
   orig: 5, 1202
   offset: 0, 0
   index: -1
-musikOn
+musicOff
   rotate: false
-  xy: 1493, 1100
+  xy: 1619, 1307
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
-musinOff
+musicOn
   rotate: false
-  xy: 1397, 810
+  xy: 1813, 1524
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 1203, 1294
+  xy: 1203, 1279
   size: 414, 414
   orig: 414, 414
   offset: 0, 0
   index: -1
 return
   rotate: false
-  xy: 1619, 1516
+  xy: 1445, 697
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
 setting
   rotate: false
-  xy: 1619, 1322
+  xy: 1619, 1501
   size: 192, 192
   orig: 192, 192
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 509, 292
+  xy: 509, 277
   size: 420, 403
   orig: 420, 403
   offset: 0, 0

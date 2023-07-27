@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,8 +18,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.tools.GameSettings;
+import com.ballisticmyach.ball_trajectory.tools.Localization;
 
-public class MainMenuScreen implements Screen {
+public class SettingsScreen implements Screen {
 
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
@@ -36,16 +39,17 @@ public class MainMenuScreen implements Screen {
     private Table table;
 
     //Table
-    private Stack stack2;
-    private Table table2;
-    private Image lineImage;
-    private Label labelGame;
-    private Image playButton;
+    private Image returnButton;
+    private Label labelSettings;
+    private Image musicOnButton;
+    private Image musicOffButton;
+    private Image enButton;
+    private Image brButton;
     private Image settingButton;
     private Image achievementsButton;
 
 
-    public MainMenuScreen(Main main) {
+    public SettingsScreen(Main main) {
         this.main = main;
     }
 
@@ -69,27 +73,44 @@ public class MainMenuScreen implements Screen {
         container.maxWidth(360.0f);
         container.maxHeight(800.0f);
 
-        stack2 = new Stack();
-
-        table2 = new Table();
-
-        lineImage = new Image(skin, "line_menu");
-        lineImage.setScaling(Scaling.fit);
-        table2.add(lineImage).expand().align(Align.top);
-        stack2.addActor(table2);
-
         table = new Table();
         table.align(Align.top);
 
-        labelGame = new Label("BALL\n"
-                + "TRAJECTORY", skin);
-        labelGame.setAlignment(Align.center);
-        table.add(labelGame).padTop(121.0f).expandX().align(Align.top).colspan(2);
+        returnButton = new Image(skin, "return");
+        returnButton.setScaling(Scaling.fit);
+        table.add(returnButton).padLeft(24.0f).padTop(30.0f).expandX().align(Align.topLeft).colspan(2);
 
         table.row();
-        playButton = new Image(skin, "play");
-        playButton.setScaling(Scaling.fit);
-        table.add(playButton).padTop(154.0f).expandX().align(Align.top).colspan(2);
+        labelSettings = new Label("SETTING", skin,"font32");
+        table.add(labelSettings).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        HorizontalGroup horizontalGroup = new HorizontalGroup();
+        horizontalGroup.align(Align.top);
+        horizontalGroup.space(64.0f);
+
+        musicOnButton = new Image(skin, "musicOn");
+        musicOnButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(musicOnButton);
+
+        musicOffButton = new Image(skin, "musicOff");
+        musicOffButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(musicOffButton);
+        table.add(horizontalGroup).padTop(167.0f).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        horizontalGroup = new HorizontalGroup();
+        horizontalGroup.align(Align.top);
+        horizontalGroup.space(40.0f);
+
+        enButton = new Image(skin, "en");
+        enButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(enButton);
+
+        brButton = new Image(skin, "br");
+        brButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(brButton);
+        table.add(horizontalGroup).padTop(133.0f).expandX().align(Align.top).colspan(2);
 
         table.row();
         settingButton = new Image(skin, "setting");
@@ -102,18 +123,49 @@ public class MainMenuScreen implements Screen {
 
         setClickListeners();
 
-        stack2.addActor(table);
-        container.setActor(stack2);
+        container.setActor(table);
         mainStack.addActor(container);
         mainTable.add(mainStack);
         stage.addActor(mainTable);
     }
 
     private void setClickListeners() {
-        playButton.addListener(new ClickListener() {
+        returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                main.setScreen(new GameScreen(main));
+                main.setScreen(new MainMenuScreen(main));
+            }
+        });
+
+        musicOnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setMusicOn(true);
+                main.playMusic(GameSettings.getMusicOn());
+            }
+        });
+
+        musicOffButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setMusicOn(false);
+                main.playMusic(GameSettings.getMusicOn());
+            }
+        });
+
+        enButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setLanguage("en");
+                Localization.setLanguage(GameSettings.getLanguage());
+            }
+        });
+
+        brButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setLanguage("br");
+                Localization.setLanguage(GameSettings.getLanguage());
             }
         });
 
@@ -134,7 +186,7 @@ public class MainMenuScreen implements Screen {
 
     public void render(float delta) {
         renderCamera();
-
+        initLocalizedUI();
         stage.act();
         stage.draw();
     }
@@ -183,4 +235,7 @@ public class MainMenuScreen implements Screen {
     }
     ////////
 
+    private void initLocalizedUI() {
+        labelSettings.setText(Localization.getLoc(Localization.SETTINGS));
+    }
 }

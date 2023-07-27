@@ -2,6 +2,7 @@ package com.ballisticmyach.ball_trajectory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.tools.Localization;
 
-public class MainMenuScreen implements Screen {
+public class GameOverScreen implements Screen {
 
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
@@ -36,18 +39,17 @@ public class MainMenuScreen implements Screen {
     private Table table;
 
     //Table
-    private Stack stack2;
-    private Table table2;
-    private Image lineImage;
-    private Label labelGame;
+    private Image returnButton;
+    private Label labelScore;
+    private Label labelGameOver;
     private Image playButton;
     private Image settingButton;
     private Image achievementsButton;
 
-
-    public MainMenuScreen(Main main) {
+    public GameOverScreen(Main main) {
         this.main = main;
     }
+
 
     public void show() {
         showCameraAndStage();
@@ -69,27 +71,26 @@ public class MainMenuScreen implements Screen {
         container.maxWidth(360.0f);
         container.maxHeight(800.0f);
 
-        stack2 = new Stack();
-
-        table2 = new Table();
-
-        lineImage = new Image(skin, "line_menu");
-        lineImage.setScaling(Scaling.fit);
-        table2.add(lineImage).expand().align(Align.top);
-        stack2.addActor(table2);
-
         table = new Table();
         table.align(Align.top);
 
-        labelGame = new Label("BALL\n"
-                + "TRAJECTORY", skin);
-        labelGame.setAlignment(Align.center);
-        table.add(labelGame).padTop(121.0f).expandX().align(Align.top).colspan(2);
+        returnButton = new Image(skin, "return");
+        returnButton.setScaling(Scaling.fit);
+        table.add(returnButton).padLeft(24.0f).padTop(30.0f).expandX().align(Align.topLeft);
+
+        labelScore = new Label("Score:\n"
+                        + "24", skin, "font24");
+        table.add(labelScore).padRight(24.0f).padTop(24.0f).align(Align.topRight);
+
+        table.row();
+        labelGameOver = new Label("Game\n"
+                        + "Over", skin, "font48");
+        labelGameOver.setAlignment(Align.center);
+        table.add(labelGameOver).padTop(139.0f).expandX().colspan(2);
 
         table.row();
         playButton = new Image(skin, "play");
-        playButton.setScaling(Scaling.fit);
-        table.add(playButton).padTop(154.0f).expandX().align(Align.top).colspan(2);
+        table.add(playButton).padTop(52.0f).colspan(2);
 
         table.row();
         settingButton = new Image(skin, "setting");
@@ -98,18 +99,26 @@ public class MainMenuScreen implements Screen {
 
         achievementsButton = new Image(skin, "achievements");
         achievementsButton.setScaling(Scaling.fit);
-        table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).expand().align(Align.bottomRight);
+        table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).align(Align.bottomRight);
 
+        initLocalizedUI();
         setClickListeners();
 
-        stack2.addActor(table);
-        container.setActor(stack2);
+        container.setActor(table);
         mainStack.addActor(container);
         mainTable.add(mainStack);
         stage.addActor(mainTable);
     }
 
+
     private void setClickListeners() {
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                main.setScreen(new MainMenuScreen(main));
+            }
+        });
+
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -183,4 +192,8 @@ public class MainMenuScreen implements Screen {
     }
     ////////
 
+    private void initLocalizedUI() {
+        labelScore.setText(Localization.getLoc(Localization.SCORE));
+        labelGameOver.setText(Localization.getLoc(Localization.GAME_OVER));
+    }
 }
