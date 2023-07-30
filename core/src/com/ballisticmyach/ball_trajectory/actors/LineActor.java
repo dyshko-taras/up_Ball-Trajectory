@@ -9,10 +9,6 @@ import com.badlogic.gdx.utils.Align;
 
 public class LineActor extends Actor {
     private Image image;
-    private float width;
-    private float height;
-    private float degrees;
-
 
     public LineActor(Image image, float x, float y, float width, float height,float originX, float originY) {
         super();
@@ -22,7 +18,6 @@ public class LineActor extends Actor {
         setPosition(x,y);
         setSize(width, height);
         setOrigin(originX, originY);
-        setRotation(-90f);
     }
 
     @Override
@@ -40,14 +35,5 @@ public class LineActor extends Actor {
 //    public void act(float delta) {
 //        super.act(delta);
 //        rotateBy(degrees);
-//    }
-
-
-
-
-//
-//    @Override
-//    public void act(float delta) {
-//        super.act(delta);
 //    }
 }

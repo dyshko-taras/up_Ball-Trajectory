@@ -4,9 +4,16 @@ size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-line_menu
+line
   rotate: false
   xy: 1, 1
+  size: 1202, 5
+  orig: 1202, 5
+  offset: 0, 0
+  index: -1
+line_menu
+  rotate: false
+  xy: 1, 8
   size: 1440, 2007
   orig: 1440, 2007
   offset: 0, 0
@@ -99,13 +106,6 @@ en
   xy: 1203, 989
   size: 288, 288
   orig: 288, 288
-  offset: 0, 0
-  index: -1
-line
-  rotate: false
-  xy: 1687, 103
-  size: 5, 1202
-  orig: 5, 1202
   offset: 0, 0
   index: -1
 musicOff

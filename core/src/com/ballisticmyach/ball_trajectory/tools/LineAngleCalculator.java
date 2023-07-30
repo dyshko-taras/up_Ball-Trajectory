@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class LineAngleCalculator {
 
-    public static float calculateAngleWithXAxis(float x1, float y1, float x2, float y2) {
+    //calculateAngleWithXAxis
+    public static float getDegrees(float x1, float y1, float x2, float y2) {
         float slope = (y2 - y1) / (x2 - x1);
         float angleRad = (float) Math.atan(slope);
         float angleDeg = MathUtils.radiansToDegrees * angleRad;
@@ -18,7 +19,6 @@ public class LineAngleCalculator {
         if (angleDeg < 0) {
             angleDeg = 360 + angleDeg;
         }
-
 
 
         //Limit  angle

@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class BallActor extends Actor {
-    private float aX;
-    private float aY;
 
     private Image image;
     private Circle circle;
@@ -16,16 +14,14 @@ public class BallActor extends Actor {
     public float radius;
 
 
-    public BallActor(Image image, Vector2 containerVector, float x, float y, float radius) {
+    public BallActor(Image image, float x, float y, float radius) {
         super();
 
-        aX = containerVector.x;
-        aY = containerVector.y;
 
         this.image = image;
         circle = new Circle();
 
-        setPosition(aX + x, aY + y);
+        setPosition(x, y);
         setSize(radius * 2, radius * 2);
 
         this.radius = radius;

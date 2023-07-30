@@ -1,9 +1,10 @@
 package com.ballisticmyach.ball_trajectory.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,14 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
 import com.ballisticmyach.ball_trajectory.actors.BallActor;
@@ -34,12 +34,11 @@ public class GameScreen implements Screen, InputProcessor {
 
     private final Main main;
     private Viewport viewport;
-
+    private Viewport viewportBackground;
     private Skin skin;
     private Stage stage;
-
+    private Stage stageBackground;
     private Table mainTable;
-    private Stack mainStack;
     private Image background;
     private Container container;
     private Table table;
@@ -51,15 +50,12 @@ public class GameScreen implements Screen, InputProcessor {
     private Image settingButton;
     private Image achievementsButton;
 
-    //Container
-    private Vector2 containerVector;
-    public float aX = 0;
-    private float aY = 0;
-
     //Actors
-    private boolean isActorAdded = false;
     private BallActor ballActor;
+    private Image imageBallActor;
     private LineActor lineActor;
+    private Image imageLineActor;
+    private float degrees = 0;
 
     public GameScreen(Main main) {
         this.main = main;
@@ -74,12 +70,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         mainTable = new Table();
         mainTable.setFillParent(true);
-
-        mainStack = new Stack();
-
-        background = new Image(skin, "background");
-        background.setScaling(Scaling.fillY);
-        mainStack.addActor(background);
 
         container = new Container();
         container.minWidth(360.0f);
@@ -112,14 +102,27 @@ public class GameScreen implements Screen, InputProcessor {
         achievementsButton.setScaling(Scaling.fit);
         table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).expandX().align(Align.bottomRight);
 
-        initLocalizedUI();
-        setClickListeners();
 
         container.setActor(table);
-        mainStack.addActor(container);
-        mainTable.add(mainStack);
+        mainTable.add(container);
         stage.addActor(mainTable);
-        Gdx.input.setInputProcessor(this);
+
+        addBackground();
+        initLocalizedUI();
+        initAssets();
+        addMyActors();
+        setClickListeners();
+
+        //init InputProcessor
+        InputMultiplexer multiplexer = new InputMultiplexer(stage,this);// The call order of the processors depends on the order you provide them
+        Gdx.input.setInputProcessor(multiplexer);
+
+
+//
+//        //init Box2D
+//        Box2D.init();
+//
+
     }
 
 
@@ -156,15 +159,11 @@ public class GameScreen implements Screen, InputProcessor {
     public void render(float delta) {
         renderCamera();
 
-        stage.act();
-        stage.draw();
-
         update(delta);
     }
 
     public void update(float delta) {
-        setContainerPosition();
-        addMyActors();
+
 
     }
 
@@ -195,47 +194,52 @@ public class GameScreen implements Screen, InputProcessor {
 
     /////Camera
     private void showCameraAndStage() {
-        viewport = new ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
+        viewportBackground = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT); //FitViewport or ExtendViewport
+        stageBackground = new Stage(viewportBackground);
+
+
+        viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
         stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+//        Gdx.input.setInputProcessor(stage);
     }
 
     private void renderCamera() {
-        ScreenUtils.clear(0, 0, 0, 1);
+        ScreenUtils.clear(Color.BLACK);
+
+        viewportBackground.apply(true);
+        stageBackground.draw();
+
         viewport.apply();
-        main.batch.setProjectionMatrix(viewport.getCamera().combined);
+        stage.act();
+        stage.draw();
     }
 
     private void resizeCamera(int width, int height) {
+        viewportBackground.update(width, height);
         viewport.update(width, height, true);
-        stage.getViewport().update(width, height, true);
     }
     ////////
+
+    private void addBackground() {
+        background = new Image(skin, "background");
+        background.setFillParent(true);
+        background.setScaling(Scaling.fillY);
+        stageBackground.addActor(background);
+    }
 
     private void initLocalizedUI() {
         labelScore.setText(Localization.getLoc(Localization.SCORE));
     }
 
-    private void setContainerPosition() {
-        containerVector = container.localToStageCoordinates(new Vector2(0, 0));
 
-        if (aX != containerVector.x) {
-            aX = containerVector.x;
-        }
-
-        if (aY != containerVector.y) {
-            aY = containerVector.y;
-        }
+    public void initAssets() {
+        imageBallActor = new Image(skin, "ball");
+        imageLineActor = new Image(skin, "line");
     }
 
     public void addMyActors() {
-        if (!isActorAdded) {
-            ballActor = new BallActor(new Image(skin, "ball"),containerVector,156,30,24);
-            stage.addActor(ballActor);
-
-            isActorAdded = true;
-            System.out.println("Added");
-        }
+        ballActor = new BallActor(imageBallActor, 156, 30, 24);
+        stage.addActor(ballActor);
     }
 
 
@@ -254,8 +258,6 @@ public class GameScreen implements Screen, InputProcessor {
         return false;
     }
 
-
-    private float circleTouchX, circleTouchY;
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("Touch");
@@ -263,17 +265,22 @@ public class GameScreen implements Screen, InputProcessor {
         float x = touch.x;
         float y = touch.y;
 
-
-
-//
         if (ballActor.getCircle().contains(x, y)) {
-//            circleTouchX = x;
-//            circleTouchY = y;
-            lineActor = new LineActor(new Image(skin, "line"),ballActor.getCircle().x,ballActor.getCircle().y,2000,4,0,2);
+            lineActor = new LineActor(imageLineActor,
+                    ballActor.getCircle().x,
+                    ballActor.getCircle().y,
+                    2000,
+                    4,
+                    0,
+                    2);
             stage.addActor(lineActor);
-            lineActor.setRotation(LineAngleCalculator.calculateAngleWithXAxis(lineActor.getX() + lineActor.getOriginX(), lineActor.getY() + lineActor.getOriginY(), x, y));
-            System.out.println(ballActor.getCircle().x + " " + ballActor.getCircle().y);
-//
+
+            degrees = LineAngleCalculator.getDegrees(
+                    lineActor.getX() + lineActor.getOriginX(),
+                    lineActor.getY() + lineActor.getOriginY(),
+                    x,
+                    y);
+            lineActor.setRotation(degrees);
         }
         return true;
     }
@@ -284,29 +291,18 @@ public class GameScreen implements Screen, InputProcessor {
             lineActor.setRotation(0.0f);
             lineActor.remove();
         }
-//        if(lineActor != null) {
-//            lineActor.remove();
-//        }
         return true;
     }
 
 
-    private float dragX, dragY;
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (lineActor != null) {
             Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
             float x = stageCoords.x;
             float y = stageCoords.y;
-            lineActor.setRotation(LineAngleCalculator.calculateAngleWithXAxis(lineActor.getX() + lineActor.getOriginX(), lineActor.getY() + lineActor.getOriginY(), x, y));
+            lineActor.setRotation(LineAngleCalculator.getDegrees(lineActor.getX() + lineActor.getOriginX(), lineActor.getY() + lineActor.getOriginY(), x, y));
         }
-//        // Оновлення координат кінця лінії
-//        lineActor.setEnd(x, y);
-//
-//        // Оновлення останніх координат переміщення пальця
-//        dragX = x;
-//        dragY = y;
-
         return true;
     }
 

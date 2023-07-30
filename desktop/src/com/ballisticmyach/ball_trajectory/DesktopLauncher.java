@@ -11,7 +11,8 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Ball Trajectory");
 		config.setWindowedMode(360,800);
-//		config.setWindowedMode(800,800);
+//		config.setWindowedMode(300,800);
+		config.setWindowedMode(800,800);
 		config.useVsync(true);
 		new Lwjgl3Application(new Main(), config);
 	}

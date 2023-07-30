@@ -3,6 +3,7 @@ package com.ballisticmyach.ball_trajectory.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -16,10 +17,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
 
-public class MainMenuScreen implements Screen, InputProcessor {
+public class MainMenuScreen implements Screen{
 
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
@@ -173,7 +175,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     private void renderCamera() {
-        ScreenUtils.clear(1, 1, 1, 1);
+        ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         main.batch.setProjectionMatrix(viewport.getCamera().combined);
     }
@@ -181,47 +183,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private void resizeCamera(int width, int height) {
         viewport.update(width, height, true);
         stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchDown");
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
     }
     ////////
 

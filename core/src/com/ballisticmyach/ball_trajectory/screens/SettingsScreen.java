@@ -2,6 +2,7 @@ package com.ballisticmyach.ball_trajectory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -224,7 +225,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void renderCamera() {
-        ScreenUtils.clear(1, 1, 1, 1);
+        ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         main.batch.setProjectionMatrix(viewport.getCamera().combined);
     }

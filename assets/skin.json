@@ -89,11 +89,6 @@ com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
 		minWidth: 72
 		minHeight: 72
 	}
-	line: {
-		region: line
-		minWidth: 4
-		minHeight: 2000
-	}
 	line_menu: {
 		region: line_menu
 		minWidth: 360
@@ -128,6 +123,11 @@ com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
 		region: musicOn
 		minWidth: 48
 		minHeight: 48
+	}
+	line: {
+		region: line
+		minWidth: 2000
+		minHeight: 4
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
