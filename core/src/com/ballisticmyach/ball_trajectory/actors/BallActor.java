@@ -17,14 +17,12 @@ public class BallActor extends Actor {
     public BallActor(Image image, float x, float y, float radius) {
         super();
 
-
         this.image = image;
         circle = new Circle();
+        this.radius = radius;
 
         setPosition(x, y);
         setSize(radius * 2, radius * 2);
-
-        this.radius = radius;
     }
 
     @Override

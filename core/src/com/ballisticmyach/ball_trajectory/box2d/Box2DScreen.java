@@ -7,14 +7,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.ballisticmyach.ball_trajectory.Main;
 
-public class Box2dScreen {
+public class Box2DScreen {
     private float worldWidth;
     private float worldHeight;
     private float worldScale;
     private float screenScale;
 
 
-    public Box2dScreen(World world, float worldScale) {
+    public Box2DScreen(World world, float worldScale) {
         worldWidth = Main.SCREEN_WIDTH * worldScale;
         worldHeight = Main.SCREEN_HEIGHT * worldScale;
         this.worldScale = worldScale;

@@ -1,6 +1,5 @@
 package com.ballisticmyach.ball_trajectory.box2d;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.ballisticmyach.ball_trajectory.Main;
 
-public class Box2dBall {
+public class Box2DBall {
 
     private float worldWidth;
     private float worldHeight;
@@ -24,7 +23,7 @@ public class Box2dBall {
     private int check = 0;
 
 
-    public Box2dBall(World world, float x, float y, float radius, float worldScale) {
+    public Box2DBall(World world, float x, float y, float radius, float worldScale) {
         worldWidth = Main.SCREEN_WIDTH * worldScale;
         worldHeight = Main.SCREEN_HEIGHT * worldScale;
         this.worldScale = worldScale;
@@ -69,18 +68,18 @@ public class Box2dBall {
     public void checkVelocity() {
 //        System.out.println(ballBody.getLinearVelocity().x + " " + ballBody.getLinearVelocity().y);
 
-        if (ballBody.getLinearVelocity().x == 0) {
+        if (ballBody.getLinearVelocity().x == 0 && ballBody.getLinearVelocity().y != 0) {
             check++;
             if(check == 400) {
-                ballBody.setLinearVelocity(-30 * worldScale, ballBody.getLinearVelocity().y);
+                ballBody.setLinearVelocity(30 * worldScale, ballBody.getLinearVelocity().y);
                 check = 0;
             }
         }
 
-        if (ballBody.getLinearVelocity().y == 0) {
+        if (ballBody.getLinearVelocity().x != 0 && ballBody.getLinearVelocity().y == 0) {
             check++;
             if(check == 400) {
-                ballBody.setLinearVelocity(ballBody.getLinearVelocity().x, -30 * worldScale);
+                ballBody.setLinearVelocity(ballBody.getLinearVelocity().x, 30 * worldScale);
                 check = 0;
                 System.out.println("check");
             }

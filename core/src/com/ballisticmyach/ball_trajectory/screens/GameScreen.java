@@ -24,13 +24,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
 import com.ballisticmyach.ball_trajectory.actors.BallActor;
+import com.ballisticmyach.ball_trajectory.actors.BlockActor;
 import com.ballisticmyach.ball_trajectory.actors.LineActor;
-import com.ballisticmyach.ball_trajectory.box2d.Box2dBall;
-import com.ballisticmyach.ball_trajectory.box2d.Box2dScreen;
+import com.ballisticmyach.ball_trajectory.box2d.Box2DBall;
+import com.ballisticmyach.ball_trajectory.box2d.Box2DBlock;
+import com.ballisticmyach.ball_trajectory.box2d.Box2DScreen;
 import com.ballisticmyach.ball_trajectory.tools.GameSettings;
 import com.ballisticmyach.ball_trajectory.tools.LineAngleCalculator;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
-import com.ballisticmyach.ball_trajectory.tools.VectorUtils;
+import com.ballisticmyach.ball_trajectory.tools.VectorFromAngleAndLength;
 
 public class GameScreen implements Screen {
 
@@ -61,14 +63,17 @@ public class GameScreen implements Screen {
     private LineActor lineActor;
     private Image imageLineActor;
     private float degrees = 0;
+    private BlockActor blockActor;
+    private Image imageBlockActor;
 
     //Box2D
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private Viewport viewportBox2D;
     private float worldScale = 0.01f;
-    private Box2dBall box2dBall;
-    private Box2dScreen box2dScreen;
+    private Box2DBall box2DBall;
+    private Box2DScreen box2DScreen;
+    private Box2DBlock box2DBlock;
 
 
     public GameScreen(Main main) {
@@ -128,11 +133,7 @@ public class GameScreen implements Screen {
         setClickListeners();
         initInputProcessor();
 
-
-        showCameraAndStageForBox2D();
-        showBody();
-
-
+        showBox2D();
     }
 
     private void setClickListeners() {
@@ -169,15 +170,14 @@ public class GameScreen implements Screen {
         renderCamera();
         renderCameraForBox2D();
 
-
         update(delta);
     }
 
     public void update(float delta) {
-        ballActor.setPosition(box2dBall.getX(), box2dBall.getY());
-        box2dBall.checkVelocity();
-//        System.out.println(ballActor.getX() + " " + ballActor.getY());
-//        System.out.println(ballB.getPosition().x + " " + ballB.getPosition().y);
+        ballActor.setPosition(box2DBall.getX(), box2DBall.getY());
+        box2DBall.checkVelocity();
+
+        blockActor.setPosition(box2DBlock.getX(), box2DBlock.getY());
     }
 
     public void resize(int width, int height) {
@@ -249,30 +249,20 @@ public class GameScreen implements Screen {
     public void initAssets() {
         imageBallActor = new Image(skin, "ball");
         imageLineActor = new Image(skin, "line");
+        imageBlockActor = new Image(skin, "box");
     }
 
     public void addMyActors() {
         ballActor = new BallActor(imageBallActor, 156, 30, 24);
         stage.addActor(ballActor);
+
+        blockActor = new BlockActor(imageBlockActor, 100, 100, 60, 60);
+        stage.addActor(blockActor);
     }
 
     private void initInputProcessor() {
         //init InputProcessor. The call order of the processors depends on the order you provide them!!!!
         InputMultiplexer multiplexer = new InputMultiplexer(stage, new InputProcessor() {
-            @Override
-            public boolean keyDown(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(char character) {
-                return false;
-            }
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -303,10 +293,12 @@ public class GameScreen implements Screen {
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                System.out.println("TouchUp");
                 if (lineActor != null) {
                     lineActor.setRotation(0.0f);
                     lineActor.remove();
-                    box2dBall.setLinearVelocity(VectorUtils.createVectorFromAngleAndLength(degrees, 200));
+                    System.out.println(degrees);
+                    box2DBall.setLinearVelocity(VectorFromAngleAndLength.getVector(degrees, 400));
                 }
                 return true;
             }
@@ -318,7 +310,12 @@ public class GameScreen implements Screen {
                     Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
                     float x = stageCoords.x;
                     float y = stageCoords.y;
-                    lineActor.setRotation(LineAngleCalculator.getDegrees(lineActor.getX() + lineActor.getOriginX(), lineActor.getY() + lineActor.getOriginY(), x, y));
+                    degrees = LineAngleCalculator.getDegrees(
+                            lineActor.getX() + lineActor.getOriginX(),
+                            lineActor.getY() + lineActor.getOriginY(),
+                            x,
+                            y);
+                    lineActor.setRotation(degrees);
                 }
                 return true;
             }
@@ -332,19 +329,35 @@ public class GameScreen implements Screen {
             public boolean scrolled(float amountX, float amountY) {
                 return false;
             }
+
+            @Override
+            public boolean keyDown(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
         });
         Gdx.input.setInputProcessor(multiplexer);
     }
 
 
-    /////Camera Box2D
-    private void showCameraAndStageForBox2D() {
+    ///// Box2D
+    private void showBox2D() {
         //init Box2D
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
         World.setVelocityThreshold(0.1f);
         debugRenderer = new Box2DDebugRenderer();
         viewportBox2D = new FitViewport(SCREEN_WIDTH * worldScale, SCREEN_HEIGHT * worldScale); //FitViewport or ExtendViewport
+        addBodyBox2D();
     }
 
     private void renderCameraForBox2D() {
@@ -356,25 +369,14 @@ public class GameScreen implements Screen {
     private void resizeCameraForBox2D(int width, int height) {
         viewportBox2D.update(width, height, true);
     }
-    ////////
 
 
-
-    private void showBody() {
-        box2dBall = new Box2dBall(world,ballActor.getX() + ballActor.radius, ballActor.getY() + ballActor.radius, 24,worldScale);
-        box2dScreen = new Box2dScreen(world,worldScale);
-
-
-//        BodyDef groundBodyDef = new BodyDef();
-//        groundBodyDef.type = BodyDef.BodyType.StaticBody;
-//        groundBodyDef.position.set(viewport.getScreenWidth() / 2, 10);
-//
-//        Body groundBody = world.createBody(groundBodyDef);
-//
-//        PolygonShape groundBox  = new PolygonShape();
-//        groundBox.setAsBox(viewport.getScreenWidth() / 4, 10.0f);
-//
-//        groundBody.createFixture(groundBox, 0);
+    private void addBodyBox2D() {
+        box2DBall = new Box2DBall(world,ballActor.getX() + ballActor.radius, ballActor.getY() + ballActor.radius, 24,worldScale);
+        box2DScreen = new Box2DScreen(world,worldScale);
+        box2DBlock = new Box2DBlock(world,0,0,60,60,worldScale);
     }
+
+    ////////
 
 }
