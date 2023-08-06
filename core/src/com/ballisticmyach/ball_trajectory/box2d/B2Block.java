@@ -5,8 +5,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.actors.BlockActor;
 
-public class Box2DBlock {
+public class B2Block {
     private float worldWidth;
     private float worldHeight;
     private float worldScale;
@@ -18,7 +19,7 @@ public class Box2DBlock {
     private float widthBox;
     private float heightBox;
 
-    public Box2DBlock(World world, float x, float y, float width, float height, float worldScale) {
+    public B2Block(World world, float x, float y, float width, float height, float worldScale, BlockActor blockActorUserData) {
         worldWidth = Main.SCREEN_WIDTH * worldScale;
         worldHeight = Main.SCREEN_HEIGHT * worldScale;
         this.worldScale = worldScale;
@@ -38,9 +39,7 @@ public class Box2DBlock {
         body.createFixture(boxShape, 0);
 
         boxShape.dispose();
-        System.out.println(body.getPosition().x * screenScale + " " + body.getPosition().y  * screenScale);
-        System.out.println(getX() + " " + getY());
-        System.out.println(widthBox * screenScale + " " + heightBox  * screenScale);
+        body.setUserData(blockActorUserData);
     }
 
     public float getX() {
@@ -49,5 +48,9 @@ public class Box2DBlock {
 
     public float getY() {
         return (body.getPosition().y - heightBox) * screenScale;
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

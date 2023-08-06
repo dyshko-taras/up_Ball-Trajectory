@@ -7,8 +7,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.actors.BallActor;
 
-public class Box2DBall {
+public class B2Ball {
 
     private float worldWidth;
     private float worldHeight;
@@ -23,7 +24,7 @@ public class Box2DBall {
     private int check = 0;
 
 
-    public Box2DBall(World world, float x, float y, float radius, float worldScale) {
+    public B2Ball(World world, float x, float y, float radius, float worldScale, BallActor ballActorUserData) {
         worldWidth = Main.SCREEN_WIDTH * worldScale;
         worldHeight = Main.SCREEN_HEIGHT * worldScale;
         this.worldScale = worldScale;
@@ -33,8 +34,7 @@ public class Box2DBall {
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x * worldScale, y * worldScale);
-
+        bodyDef.position.set(x * worldScale + radiusBall, y * worldScale + radiusBall);
         circleShape = new CircleShape();
         circleShape.setRadius(radiusBall);
 
@@ -47,6 +47,8 @@ public class Box2DBall {
         ballBody = world.createBody(bodyDef);
         ballBody.createFixture(fixtureDef);
         circleShape.dispose();
+
+        ballBody.setUserData(ballActorUserData);
     }
 
     public float getX() {

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -26,13 +27,15 @@ import com.ballisticmyach.ball_trajectory.Main;
 import com.ballisticmyach.ball_trajectory.actors.BallActor;
 import com.ballisticmyach.ball_trajectory.actors.BlockActor;
 import com.ballisticmyach.ball_trajectory.actors.LineActor;
-import com.ballisticmyach.ball_trajectory.box2d.Box2DBall;
-import com.ballisticmyach.ball_trajectory.box2d.Box2DBlock;
-import com.ballisticmyach.ball_trajectory.box2d.Box2DScreen;
+import com.ballisticmyach.ball_trajectory.box2d.B2Screen;
+import com.ballisticmyach.ball_trajectory.box2d.ListenerClass;
 import com.ballisticmyach.ball_trajectory.tools.GameSettings;
+import com.ballisticmyach.ball_trajectory.tools.LabelNum;
 import com.ballisticmyach.ball_trajectory.tools.LineAngleCalculator;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
 import com.ballisticmyach.ball_trajectory.tools.VectorFromAngleAndLength;
+
+import java.util.Iterator;
 
 public class GameScreen implements Screen {
 
@@ -65,15 +68,16 @@ public class GameScreen implements Screen {
     private float degrees = 0;
     private BlockActor blockActor;
     private Image imageBlockActor;
+    private Label labelBlock;
 
     //Box2D
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private Viewport viewportBox2D;
     private float worldScale = 0.01f;
-    private Box2DBall box2DBall;
-    private Box2DScreen box2DScreen;
-    private Box2DBlock box2DBlock;
+    private ListenerClass listenerClass;
+    private Array<BlockActor> blocksActorToRemove = new Array<BlockActor>();
+    private B2Screen b2Screen;
 
 
     public GameScreen(Main main) {
@@ -126,6 +130,8 @@ public class GameScreen implements Screen {
         mainTable.add(container);
         stage.addActor(mainTable);
 
+        showBox2D();
+
         addBackground();
         initLocalizedUI();
         initAssets();
@@ -133,7 +139,7 @@ public class GameScreen implements Screen {
         setClickListeners();
         initInputProcessor();
 
-        showBox2D();
+
     }
 
     private void setClickListeners() {
@@ -174,10 +180,11 @@ public class GameScreen implements Screen {
     }
 
     public void update(float delta) {
-        ballActor.setPosition(box2DBall.getX(), box2DBall.getY());
-        box2DBall.checkVelocity();
+//        ballActor.setPosition(box2DBall.getX(), box2DBall.getY());
+//        box2DBall.checkVelocity();
 
-        blockActor.setPosition(box2DBlock.getX(), box2DBlock.getY());
+//        blockActor.setPosition(box2DBlock.getX(), box2DBlock.getY());
+        removeBlocksActor();
     }
 
     public void resize(int width, int height) {
@@ -250,13 +257,14 @@ public class GameScreen implements Screen {
         imageBallActor = new Image(skin, "ball");
         imageLineActor = new Image(skin, "line");
         imageBlockActor = new Image(skin, "box");
+        labelBlock = new Label("", skin, "font24_white");
     }
 
     public void addMyActors() {
-        ballActor = new BallActor(imageBallActor, 156, 30, 24);
+        ballActor = new BallActor(imageBallActor, 156, 30, 24, world, worldScale);
         stage.addActor(ballActor);
 
-        blockActor = new BlockActor(imageBlockActor, 100, 100, 60, 60);
+        blockActor = new BlockActor(imageBlockActor, labelBlock, 180, 600, 60, 60, world, worldScale);
         stage.addActor(blockActor);
     }
 
@@ -298,7 +306,7 @@ public class GameScreen implements Screen {
                     lineActor.setRotation(0.0f);
                     lineActor.remove();
                     System.out.println(degrees);
-                    box2DBall.setLinearVelocity(VectorFromAngleAndLength.getVector(degrees, 400));
+                    ballActor.b2Ball.setLinearVelocity(VectorFromAngleAndLength.getVector(degrees, 400));
                 }
                 return true;
             }
@@ -354,9 +362,11 @@ public class GameScreen implements Screen {
         //init Box2D
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
-        World.setVelocityThreshold(0.1f);
         debugRenderer = new Box2DDebugRenderer();
         viewportBox2D = new FitViewport(SCREEN_WIDTH * worldScale, SCREEN_HEIGHT * worldScale); //FitViewport or ExtendViewport
+        World.setVelocityThreshold(0.1f);
+        listenerClass = new ListenerClass(blocksActorToRemove);
+        world.setContactListener(listenerClass);
         addBodyBox2D();
     }
 
@@ -372,11 +382,27 @@ public class GameScreen implements Screen {
 
 
     private void addBodyBox2D() {
-        box2DBall = new Box2DBall(world,ballActor.getX() + ballActor.radius, ballActor.getY() + ballActor.radius, 24,worldScale);
-        box2DScreen = new Box2DScreen(world,worldScale);
-        box2DBlock = new Box2DBlock(world,0,0,60,60,worldScale);
+        b2Screen = new B2Screen(world, worldScale);
     }
-
     ////////
 
+
+    private void removeBlocksActor() {
+        if (blocksActorToRemove != null && blocksActorToRemove.size > 0) {
+            System.out.println(blocksActorToRemove.size);
+            for (Iterator<BlockActor> it = blocksActorToRemove.iterator(); it.hasNext(); ) {
+                BlockActor actor = it.next();
+                if (LabelNum.getNum(actor.label) > 1) {
+                    LabelNum.removeOne(actor.label);
+                    System.out.println(LabelNum.getNum(actor.label));
+                } else {
+                    world.destroyBody(actor.b2Block.getBody());
+                    actor.remove();
+                }
+                it.remove();
+            }
+        }
+    }
 }
+
+
