@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.tools;
+package com.ballisticmyach.ball_trajectory.utils;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;

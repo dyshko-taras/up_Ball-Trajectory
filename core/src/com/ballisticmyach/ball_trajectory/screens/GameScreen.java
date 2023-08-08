@@ -26,14 +26,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
 import com.ballisticmyach.ball_trajectory.actors.BallActor;
 import com.ballisticmyach.ball_trajectory.actors.BlockActor;
+import com.ballisticmyach.ball_trajectory.actors.GroupBlocks;
 import com.ballisticmyach.ball_trajectory.actors.LineActor;
 import com.ballisticmyach.ball_trajectory.box2d.B2Screen;
 import com.ballisticmyach.ball_trajectory.box2d.ListenerClass;
 import com.ballisticmyach.ball_trajectory.tools.GameSettings;
-import com.ballisticmyach.ball_trajectory.tools.LabelNum;
-import com.ballisticmyach.ball_trajectory.tools.LineAngleCalculator;
+import com.ballisticmyach.ball_trajectory.utils.LabelNum;
+import com.ballisticmyach.ball_trajectory.utils.LineAngleCalculator;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
-import com.ballisticmyach.ball_trajectory.tools.VectorFromAngleAndLength;
+import com.ballisticmyach.ball_trajectory.utils.VectorFromAngleAndLength;
 
 import java.util.Iterator;
 
@@ -42,6 +43,7 @@ public class GameScreen implements Screen {
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
 
+    //Viewports
     private final Main main;
     private Viewport viewport;
     private Viewport viewportBackground;
@@ -66,9 +68,10 @@ public class GameScreen implements Screen {
     private LineActor lineActor;
     private Image imageLineActor;
     private float degrees = 0;
-    private BlockActor blockActor;
+//    private BlockActor blockActor;
     private Image imageBlockActor;
-    private Label labelBlock;
+    private GroupBlocks groupBlocks;
+
 
     //Box2D
     private World world;
@@ -88,6 +91,7 @@ public class GameScreen implements Screen {
 
     public void show() {
         showCameraAndStage();
+        showBox2D();
 
         skin = new Skin(Gdx.files.internal("skin.json"));
 
@@ -130,16 +134,12 @@ public class GameScreen implements Screen {
         mainTable.add(container);
         stage.addActor(mainTable);
 
-        showBox2D();
-
         addBackground();
         initLocalizedUI();
         initAssets();
         addMyActors();
         setClickListeners();
         initInputProcessor();
-
-
     }
 
     private void setClickListeners() {
@@ -257,15 +257,42 @@ public class GameScreen implements Screen {
         imageBallActor = new Image(skin, "ball");
         imageLineActor = new Image(skin, "line");
         imageBlockActor = new Image(skin, "box");
-        labelBlock = new Label("", skin, "font24_white");
     }
 
     public void addMyActors() {
         ballActor = new BallActor(imageBallActor, 156, 30, 24, world, worldScale);
         stage.addActor(ballActor);
 
-        blockActor = new BlockActor(imageBlockActor, labelBlock, 180, 600, 60, 60, world, worldScale);
-        stage.addActor(blockActor);
+//        BlockActor blockActor = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 0, 0, 60, 60, world, worldScale);
+//        stage.addActor(blockActor);
+
+        for(int i = 0; i < 3; i++) {
+
+        }
+//        groupBlocks = new GroupBlocks(18, 632, 72,60);
+        groupBlocks = new GroupBlocks(18, 632, 72,60);
+        groupBlocks.addRandomRow(addArrayBlocksActor(3));
+        groupBlocks.addRandomRow(addArrayBlocksActor(3));
+        groupBlocks.addRandomRow(addArrayBlocksActor(3));
+        groupBlocks.addRandomRow(addArrayBlocksActor(3));
+        groupBlocks.addRandomRow(addArrayBlocksActor(3));
+        stage.addActor(groupBlocks);
+//
+//        blockActor = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 200, 200, 60, 60, world, worldScale);
+//        stage.addActor(blockActor);
+//        TableActor tableActor = new TableActor(blockActor);
+//        TableActor tableActor = new TableActor(new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 0, 0, 60, 60, world, worldScale));
+//        stage.addActor(tableActor);
+//        addTableActor();
+    }
+
+    private Array<BlockActor> addArrayBlocksActor(int num) {
+        Array<BlockActor> array = new Array<BlockActor>();
+        for (int i = 0; i < num; i++) {
+            BlockActor blockActor = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 0, 0, 60, 60, world, worldScale);
+            array.add(blockActor);
+        }
+        return array;
     }
 
     private void initInputProcessor() {
@@ -294,7 +321,7 @@ public class GameScreen implements Screen {
                             lineActor.getY() + lineActor.getOriginY(),
                             x,
                             y);
-                    lineActor.setRotation(degrees);
+//                    lineActor.setRotation(degrees);
                 }
                 return true;
             }
@@ -305,7 +332,8 @@ public class GameScreen implements Screen {
                 if (lineActor != null) {
                     lineActor.setRotation(0.0f);
                     lineActor.remove();
-                    System.out.println(degrees);
+//                    System.out.println(degrees);
+                    System.out.println("KURWA");
                     ballActor.b2Ball.setLinearVelocity(VectorFromAngleAndLength.getVector(degrees, 400));
                 }
                 return true;
@@ -386,7 +414,6 @@ public class GameScreen implements Screen {
     }
     ////////
 
-
     private void removeBlocksActor() {
         if (blocksActorToRemove != null && blocksActorToRemove.size > 0) {
             System.out.println(blocksActorToRemove.size);
@@ -394,7 +421,6 @@ public class GameScreen implements Screen {
                 BlockActor actor = it.next();
                 if (LabelNum.getNum(actor.label) > 1) {
                     LabelNum.removeOne(actor.label);
-                    System.out.println(LabelNum.getNum(actor.label));
                 } else {
                     world.destroyBody(actor.b2Block.getBody());
                     actor.remove();
@@ -403,6 +429,28 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+
+
+//    private void addTableActor() {
+//        Table tableMyActor = new Table();
+//        tableMyActor.align(Align.bottomLeft);
+//        tableMyActor.setFillParent(true);
+//
+//        BlockActor blockActor1 = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 18, 632, 60, 60, world, worldScale);
+//        BlockActor blockActor2 = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 150, 632, 60, 60, world, worldScale);
+//        BlockActor blockActor3 = new BlockActor(imageBlockActor, new Label("", skin, "font24_white"), 282, 632, 60, 60, world, worldScale);
+//
+//        tableMyActor.add(blockActor1);
+//        tableMyActor.add(blockActor2);
+//        tableMyActor.add(blockActor3);
+//
+//        tableMyActor.row();
+//        tableMyActor.setPosition(0, 0);
+////        tableMyActor.addAction(Actions.moveBy(0, 100, 0.5f));
+//        stage.addActor(tableMyActor);
+//
+//    }
 }
 
 

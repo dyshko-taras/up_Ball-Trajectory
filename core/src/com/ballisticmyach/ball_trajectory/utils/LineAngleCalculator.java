@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.tools;
+package com.ballisticmyach.ball_trajectory.utils;
 
 import com.badlogic.gdx.math.MathUtils;
 
@@ -29,7 +29,7 @@ public class LineAngleCalculator {
             angleDeg = 0;
         }
 
-        System.out.println(angleDeg);
+//        System.out.println(angleDeg);
         return angleDeg;
     }
 }

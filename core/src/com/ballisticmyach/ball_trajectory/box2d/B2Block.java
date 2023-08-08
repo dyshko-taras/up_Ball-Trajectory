@@ -1,5 +1,6 @@
 package com.ballisticmyach.ball_trajectory.box2d;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -16,8 +17,8 @@ public class B2Block {
     private BodyDef bodyDef;
     private PolygonShape boxShape;
     private Body body;
-    private float widthBox;
-    private float heightBox;
+    private float halfwidthBox;
+    private float halfheightBox;
 
     public B2Block(World world, float x, float y, float width, float height, float worldScale, BlockActor blockActorUserData) {
         worldWidth = Main.SCREEN_WIDTH * worldScale;
@@ -25,15 +26,15 @@ public class B2Block {
         this.worldScale = worldScale;
         screenScale = 1 / worldScale;
 
-        widthBox = width * worldScale / 2;
-        heightBox = height * worldScale / 2;
+        halfwidthBox = width * worldScale / 2;
+        halfheightBox = height * worldScale / 2;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set((x + width / 2) * worldScale, (y + height / 2) * worldScale);
 
         boxShape = new PolygonShape();
-        boxShape.setAsBox(widthBox, heightBox);
+        boxShape.setAsBox(halfwidthBox, halfheightBox);// boxShape.setAsBox(width * worldScale / 2, height * worldScale / 2);
 
         body = world.createBody(bodyDef);
         body.createFixture(boxShape, 0);
@@ -43,14 +44,22 @@ public class B2Block {
     }
 
     public float getX() {
-        return (body.getPosition().x - widthBox) * screenScale;
+        return (body.getPosition().x - halfwidthBox) * screenScale;
     }
 
     public float getY() {
-        return (body.getPosition().y - heightBox) * screenScale;
+        return (body.getPosition().y - halfheightBox) * screenScale;
     }
 
     public Body getBody() {
         return body;
+    }
+
+    public void setLinearVelocity(float velocityX, float velocityY) {
+        body.setLinearVelocity(new Vector2(velocityX * worldScale, velocityY * worldScale));
+    }
+
+    public void setPosition(float x, float y) {
+        body.setTransform(x * worldScale + halfwidthBox, y * worldScale + halfheightBox,  0);
     }
 }
