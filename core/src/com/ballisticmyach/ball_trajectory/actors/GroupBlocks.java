@@ -1,25 +1,34 @@
 package com.ballisticmyach.ball_trajectory.actors;
 
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.ballisticmyach.ball_trajectory.tools.GameState;
 import com.ballisticmyach.ball_trajectory.utils.MyMath;
+
+import java.util.Iterator;
 
 public class GroupBlocks extends Group {
 
-    private float dx;
-    private float dy;
+    private final float dx;
+    private final float dy;
+    private final World world;
     private float widthElement;
     private float heightElement;
     private int numRows = 0;
+    private int numColumn = 0;
 
-    private Skin skin;
+    //Act
+    private float durationAct = 0.5f;
+    private float distanceYAct = 120;
+    private float elapsedTime = 0;
 
-    public GroupBlocks(float x, float y, float dx, float dy) {
+    public GroupBlocks(float x, float y, float dx, float dy, World world) {
         super();
         this.dx = dx;
         this.dy = dy;
+        this.world = world;
 
         setPosition(x, y);
     }
@@ -27,103 +36,55 @@ public class GroupBlocks extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        moveBy(0, -60 * delta);
-        updateBody();
+
+        if(GameState.getState() == GameState.BLOCKS_MOVING) {
+            System.out.println("Get blocks moving");
+            elapsedTime += delta;
+            System.out.println("------- elapsedTime = " + elapsedTime);
+            if(elapsedTime <= durationAct) {
+                moveBy(0,-distanceYAct/durationAct * delta);
+                updateB2Positions();
+            } else {
+                GameState.setState(GameState.STOP_BLOCKS);
+                elapsedTime = 0;
+                System.out.println("Set stop blocks");
+            }
+        }
     }
+
+
+    int i = 0;
 
     public void addRandomRow(Array<BlockActor> blockActors) {
         widthElement = blockActors.get(0).getWidth();
         heightElement = blockActors.get(0).getHeight();
 
-
-        for (int CNum = 0; CNum < blockActors.size; CNum++) {
-            if (MyMath.calculateProbability(80)) {
-                addActor(blockActors.get(CNum));
-                System.out.println(blockActors.get(CNum).getX() + "  1");
-                blockActors.get(CNum).setPositionWithGroup(CNum * (widthElement + dx), numRows * (heightElement + dy),this);
-                System.out.println(blockActors.get(CNum).getX() + "  2");
-                System.out.println(blockActors.get(CNum).b2Block.getX() + "  3");
+        for (Iterator<BlockActor> it = blockActors.iterator(); it.hasNext(); ) {
+            BlockActor actor = it.next();
+            if (MyMath.calculateProbability(70)) {
+                addActor(actor);
+                actor.setPositionB2(numColumn * (widthElement + dx), numRows * (heightElement + dy), this);
+                System.out.println(actor.getX());
             } else {
-
+                world.destroyBody(actor.b2Block.getBody());
+                actor.remove();
             }
+            numColumn++;
         }
+        blockActors.clear();
+        numColumn = 0;
         numRows++;
     }
 
-    private void updateBody() {
+    private void updateB2Positions() {
         for (Actor actor : getChildren()) {
             if (actor instanceof BlockActor) {
                 BlockActor blockActor = (BlockActor) actor;
-                blockActor.updateB2BlockPositionWithGroup(this);
+                blockActor.updateB2Position(this);
             }
         }
     }
-
-//    private BlockActor createBlockActor() {
-//        Label label = new Label("", skin, originalBlockActor.label.getStyle().font.toString());
-//        LabelNum.setNum(label);
-//        return new BlockActor(originalBlockActor.image,
-//                label,
-//                originalBlockActor.getX(),
-//                originalBlockActor.getY(),
-//                originalBlockActor.getWidth(),
-//                originalBlockActor.getHeight(),
-//                originalBlockActor.world,
-//                originalBlockActor.worldScale);
-//    }
-
 }
-
-
-//    private Table table;
-//    private BlockActor originalBlockActor;
-//
-//    public TableActor(BlockActor originalBlockActor) {
-//        table = new Table();
-//        table.align(Align.top);
-//        table.setFillParent(true);
-////        table.setSize(300, 100); // Приклад значень розміру таблиці
-////        table.setSize(300, 100); // Приклад значень розміру таблиці
-////        table.setPosition(100, 100);
-//        this.originalBlockActor = originalBlockActor;
-////        addRandomRow(3);
-//    }
-//
-
-
-
-//
-////
-////    public void addBlock(Block block) {
-////        blocks.add(block); // Додаємо блок до списку блоків
-////        addActor(block); // Додаємо блок як дочірній актор
-////        block.setPosition(getX(), getY() + getHeight()); // Початкова позиція блока (зверху актора)
-////    }
-////
-////    public void removeBlock(Block block) {
-////        blocks.removeValue(block, true); // Видаляємо блок зі списку блоків
-////        block.remove(); // Видаляємо блок з сцени
-////    }
-////
-////    public void update(float delta) {
-////        // Оновлюємо стан блоків, наприклад, можна переміщати блоки або перевіряти умови їх зникнення
-////    }
-////
-////    private Block createNewBlock() {
-////        // Створіть тут новий блок згідно вашої логіки
-////    }
-////
-////    @Override
-////    public void act(float delta) {
-////        super.act(delta);
-////        moveBy(0, -70 * delta); // Рухаємо актора вниз зі швидкістю 70 одиниць на секунду
-////    }
-////
-//    @Override
-//    public void draw(Batch batch, float parentAlpha) {
-//        super.draw(batch, parentAlpha);
-//    }
-//
 
 
 

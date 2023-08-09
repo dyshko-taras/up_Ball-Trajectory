@@ -15,7 +15,7 @@ public class Localization {
             "STATISTICS",
             "TIMES PLAYED",
             "BEST SCORE",
-            "SCORE: ",
+            "SCORE:",
             "GAME\nOVER",
     };
 

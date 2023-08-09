@@ -20,6 +20,7 @@ public class BlockActor extends Actor {
     public B2Block b2Block;
     public World world;
     public float worldScale;
+    public int point = 0;
 
     public BlockActor(Image image, Label label, float x, float y, float width, float height, World world, float worldScale) {
         super();
@@ -35,6 +36,10 @@ public class BlockActor extends Actor {
         b2Block = new B2Block(world, x, y, width, height, worldScale,this);
         this.world = world;
         this.worldScale = worldScale;
+        setPosition(x, y);
+
+        setPoint();
+        System.out.println("point = " + point);
     }
 
     @Override
@@ -45,10 +50,6 @@ public class BlockActor extends Actor {
         image.setOrigin(getOriginX(), getOriginY());
         image.setRotation(getRotation());
         image.draw(batch, parentAlpha);
-//
-//        image.setX(b2Block.getX());
-//        image.setY(b2Block.getY());
-//        image.draw(batch, parentAlpha);
 
         label.setAlignment(Align.center);
         label.setX(image.getX() + (width - label.getWidth()) / 2);
@@ -58,22 +59,23 @@ public class BlockActor extends Actor {
         label.draw(batch, parentAlpha);
     }
 
-    @Override
-    public void setPosition(float x, float y) {
+    public void setPositionB2(float x, float y) {
         super.setPosition(x, y);
         b2Block.setPosition(x, y);
     }
 
-    public void setPositionWithGroup(float x, float y, Group group) {
+    public void setPositionB2(float x, float y, Group group) {
         super.setPosition(x, y);
         b2Block.setPosition(x + group.getX(), y + group.getY());
     }
 
-    public void updateB2BlockPositionWithGroup(Group group) {
-        b2Block.setPosition(getX() + group.getX(), getY() + group.getY());
+    public void updateB2Position() {
+        b2Block.setPosition(getX(), getY());
     }
 
-
+    public void updateB2Position(Group group) {
+        b2Block.setPosition(getX() + group.getX(), getY() + group.getY());
+    }
 
     public Rectangle getRect() {
         rect.x = getX();
@@ -81,6 +83,11 @@ public class BlockActor extends Actor {
         rect.width = getWidth();
         rect.height = getHeight();
         return rect;
+    }
+
+    private void setPoint() {
+        if (LabelNum.getNum(label) <= 10) point = 1;
+        else if (LabelNum.getNum(label) <= 20) point = 2;
     }
 
 }

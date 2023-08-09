@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.ballisticmyach.ball_trajectory.box2d.B2Ball;
+import com.ballisticmyach.ball_trajectory.tools.GameState;
+import com.ballisticmyach.ball_trajectory.utils.VectorFromAngleAndLength;
 
 public class BallActor extends Actor {
 
@@ -14,6 +16,7 @@ public class BallActor extends Actor {
     private float speed = 100;
     public float radius;
     public B2Ball b2Ball;
+    public float degrees = 0;
 
     public BallActor(Image image, float x, float y, float radius, World world, float worldScale) {
         super();
@@ -29,16 +32,39 @@ public class BallActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-//        image.setX(getX());
-//        image.setY(getY());
-//        image.setOrigin(getOriginX(), getOriginY());
-//        image.setRotation(getRotation());
-//        image.draw(batch, parentAlpha);
         b2Ball.checkVelocity();
-        image.setX(b2Ball.getX());
-        image.setY(b2Ball.getY());
+        setPosition(b2Ball.getX(), b2Ball.getY());
+
+        super.draw(batch, parentAlpha);
+        image.setX(getX());
+        image.setY(getY());
+        image.setOrigin(getOriginX(), getOriginY());
+        image.setRotation(getRotation());
         image.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+            if (GameState.getState() == GameState.SHOOTING) {
+            System.out.println("Get shooting");
+            b2Ball.setLinearVelocity(VectorFromAngleAndLength.getVector(degrees, 400));
+            GameState.setState(GameState.BALL_MOVING);
+            System.out.println("Set moving");
+        }
+        if (GameState.getState() == GameState.BALL_MOVING && getY() < 29) {
+            System.out.println("Get moving");
+            b2Ball.setLinearVelocity(VectorFromAngleAndLength.getVector(0, 0));
+            setPositionB2(getX(), 30);
+            GameState.setState(GameState.BLOCKS_MOVING);
+            System.out.println("Set blocks moving");
+        }
+    }
+
+    public void setPositionB2(float x, float y) {
+        super.setPosition(x, y);
+        b2Ball.setPosition(x, y);
     }
 
     public Circle getCircle() {
@@ -47,7 +73,6 @@ public class BallActor extends Actor {
         circle.radius = radius;
         return circle;
     }
-
 }
 
 

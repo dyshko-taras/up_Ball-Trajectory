@@ -38,6 +38,7 @@ public class Main extends Game {
 	public void setSettings() {
 		GameSettings.init();
 		Localization.setLanguage(GameSettings.getLanguage());
+		GameSettings.setMusicOn(true);
 		playMusic(GameSettings.getMusicOn());
 	}
 

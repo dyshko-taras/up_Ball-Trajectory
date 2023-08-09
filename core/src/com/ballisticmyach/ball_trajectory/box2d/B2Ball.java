@@ -67,9 +67,8 @@ public class B2Ball {
         ballBody.setLinearVelocity(new Vector2(velocity.x * worldScale, velocity.y * worldScale));
     }
 
-    public void checkVelocity() {
-//        System.out.println(ballBody.getLinearVelocity().x + " " + ballBody.getLinearVelocity().y);
 
+    public void checkVelocity() {
         if (ballBody.getLinearVelocity().x == 0 && ballBody.getLinearVelocity().y != 0) {
             check++;
             if(check == 400) {
@@ -83,8 +82,11 @@ public class B2Ball {
             if(check == 400) {
                 ballBody.setLinearVelocity(ballBody.getLinearVelocity().x, 30 * worldScale);
                 check = 0;
-                System.out.println("check");
             }
         }
+    }
+
+    public void setPosition(float x, float y) {
+        ballBody.setTransform(x * worldScale + radiusBall, y * worldScale + radiusBall, 0);
     }
 }

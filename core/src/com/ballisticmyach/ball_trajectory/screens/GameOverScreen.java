@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.ball_trajectory.tools.GameSettings;
 import com.ballisticmyach.ball_trajectory.tools.Localization;
 
 public class GameOverScreen implements Screen {
@@ -47,8 +48,13 @@ public class GameOverScreen implements Screen {
     private Image settingButton;
     private Image achievementsButton;
 
-    public GameOverScreen(Main main) {
+    //Game
+    private int score;
+
+    public GameOverScreen(Main main,int score) {
         this.main = main;
+        this.score = score;
+        setMaximumScore();
     }
 
 
@@ -81,6 +87,7 @@ public class GameOverScreen implements Screen {
 
         labelScore = new Label("Score:\n"
                         + "24", skin, "font24");
+        labelScore.setAlignment(Align.right);
         table.add(labelScore).padRight(24.0f).padTop(24.0f).align(Align.topRight);
 
         table.row();
@@ -149,6 +156,7 @@ public class GameOverScreen implements Screen {
         stage.draw();
     }
 
+
     public void resize(int width, int height) {
         resizeCamera(width, height);
     }
@@ -194,7 +202,13 @@ public class GameOverScreen implements Screen {
     ////////
 
     private void initLocalizedUI() {
-        labelScore.setText(Localization.getLoc(Localization.SCORE));
+        labelScore.setText(Localization.getLoc(Localization.SCORE)  + "\n" + score);
         labelGameOver.setText(Localization.getLoc(Localization.GAME_OVER));
+    }
+
+    private void setMaximumScore() {
+        if (GameSettings.getBestScore() < score) {
+            GameSettings.setBestScore(score);
+        }
     }
 }

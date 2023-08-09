@@ -27,7 +27,6 @@ public class B2Screen {
 
         EdgeShape screenShape = new EdgeShape();
         FixtureDef screenFixtureDef = new FixtureDef();
-        System.out.println(screenFixtureDef.friction);
         screenFixtureDef.friction = 0;
         screenFixtureDef.restitution = 1;
 
