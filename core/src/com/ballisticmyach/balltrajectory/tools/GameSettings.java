@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.tools;
+package com.ballisticmyach.balltrajectory.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;

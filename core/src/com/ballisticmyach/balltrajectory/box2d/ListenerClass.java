@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.box2d;
+package com.ballisticmyach.balltrajectory.box2d;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
-import com.ballisticmyach.ball_trajectory.actors.BallActor;
-import com.ballisticmyach.ball_trajectory.actors.BlockActor;
+import com.ballisticmyach.balltrajectory.actors.BallActor;
+import com.ballisticmyach.balltrajectory.actors.BlockActor;
 
 public class ListenerClass implements ContactListener {
     private Fixture fixtureA;

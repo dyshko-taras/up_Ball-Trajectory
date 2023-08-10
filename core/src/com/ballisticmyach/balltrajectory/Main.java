@@ -1,12 +1,12 @@
-package com.ballisticmyach.ball_trajectory;
+package com.ballisticmyach.balltrajectory;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.ballisticmyach.ball_trajectory.tools.GameSettings;
-import com.ballisticmyach.ball_trajectory.tools.Localization;
-import com.ballisticmyach.ball_trajectory.screens.*;
+import com.ballisticmyach.balltrajectory.tools.GameSettings;
+import com.ballisticmyach.balltrajectory.tools.Localization;
+import com.ballisticmyach.balltrajectory.screens.*;
 
 public class Main extends Game {
 

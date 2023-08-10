@@ -1,11 +1,8 @@
-package com.ballisticmyach.ball_trajectory.actors;
+package com.ballisticmyach.balltrajectory.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Align;
 
 public class LineActor extends Actor {
     private Image image;

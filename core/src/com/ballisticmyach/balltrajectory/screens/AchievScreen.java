@@ -1,7 +1,6 @@
-package com.ballisticmyach.ball_trajectory.screens;
+package com.ballisticmyach.balltrajectory.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,11 +16,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ballisticmyach.ball_trajectory.Main;
+import com.ballisticmyach.balltrajectory.Main;
+import com.ballisticmyach.balltrajectory.tools.GameSettings;
+import com.ballisticmyach.balltrajectory.tools.Localization;
 
-public class MainMenuScreen implements Screen{
+public class AchievScreen implements Screen {
 
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
@@ -39,16 +39,19 @@ public class MainMenuScreen implements Screen{
     private Table table;
 
     //Table
-    private Stack stack2;
-    private Table table2;
-    private Image lineImage;
-    private Label labelGame;
-    private Image playButton;
+    private Image returnButton;
+    private Label labelStatistics;
+    private Image starImage1;
+    private Label numTimesPlayed;
+    private Label labelTimesPlayed;
+    private Image starImage2;
+    private Label numBestScore;
+    private Label labelBestScore;
     private Image settingButton;
     private Image achievementsButton;
 
 
-    public MainMenuScreen(Main main) {
+    public AchievScreen(Main main) {
         this.main = main;
     }
 
@@ -72,27 +75,48 @@ public class MainMenuScreen implements Screen{
         container.maxWidth(360.0f);
         container.maxHeight(800.0f);
 
-        stack2 = new Stack();
-
-        table2 = new Table();
-
-        lineImage = new Image(skin, "line_menu");
-        lineImage.setScaling(Scaling.fit);
-        table2.add(lineImage).expand().align(Align.top);
-        stack2.addActor(table2);
-
         table = new Table();
         table.align(Align.top);
 
-        labelGame = new Label("BALL\n"
-                + "TRAJECTORY", skin);
-        labelGame.setAlignment(Align.center);
-        table.add(labelGame).padTop(121.0f).expandX().align(Align.top).colspan(2);
+        returnButton = new Image(skin, "return");
+        returnButton.setScaling(Scaling.fit);
+        table.add(returnButton).padLeft(24.0f).padTop(30.0f).expandX().align(Align.topLeft).colspan(2);
 
         table.row();
-        playButton = new Image(skin, "play");
-        playButton.setScaling(Scaling.fit);
-        table.add(playButton).padTop(154.0f).expandX().align(Align.top).colspan(2);
+        labelStatistics = new Label("STATISTICS", skin, "font32");
+        table.add(labelStatistics).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        Stack stack1 = new Stack();
+
+        starImage1 = new Image(skin, "star");
+        starImage1.setScaling(Scaling.fit);
+        stack1.addActor(starImage1);
+
+        numTimesPlayed = new Label("5", skin, "font32_white_border");
+        numTimesPlayed.setAlignment(Align.center);
+        stack1.addActor(numTimesPlayed);
+        table.add(stack1).padTop(104.0f).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        labelTimesPlayed = new Label("TIMES PLAYED", skin, "font32_white");
+        table.add(labelTimesPlayed).padTop(10.0f).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        stack1 = new Stack();
+
+        starImage2 = new Image(skin, "star");
+        starImage2.setScaling(Scaling.fit);
+        stack1.addActor(starImage2);
+
+        numBestScore = new Label("5", skin, "font32_white_border");
+        numBestScore.setAlignment(Align.center);
+        stack1.addActor(numBestScore);
+        table.add(stack1).padTop(86.0f).expandX().align(Align.top).colspan(2);
+
+        table.row();
+        labelBestScore = new Label("BEST SCORE", skin, "font32_white");
+        table.add(labelBestScore).padTop(10.0f).expandX().align(Align.top).colspan(2);
 
         table.row();
         settingButton = new Image(skin, "setting");
@@ -103,20 +127,20 @@ public class MainMenuScreen implements Screen{
         achievementsButton.setScaling(Scaling.fit);
         table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).expand().align(Align.bottomRight);
 
+        setData();
         setClickListeners();
 
-        stack2.addActor(table);
-        container.setActor(stack2);
+        container.setActor(table);
         mainStack.addActor(container);
         mainTable.add(mainStack);
         stage.addActor(mainTable);
     }
 
     private void setClickListeners() {
-        playButton.addListener(new ClickListener() {
+        returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                main.setScreen(new GameScreen(main));
+                main.setScreen(new MainMenuScreen(main));
             }
         });
 
@@ -137,7 +161,7 @@ public class MainMenuScreen implements Screen{
 
     public void render(float delta) {
         renderCamera();
-
+        initLocalizedUI();
         stage.act();
         stage.draw();
     }
@@ -186,4 +210,15 @@ public class MainMenuScreen implements Screen{
     }
     ////////
 
+    private void initLocalizedUI() {
+        labelStatistics.setText(Localization.getLoc(Localization.STATISTICS));
+        labelTimesPlayed.setText(Localization.getLoc(Localization.TIMES_PLAYED));
+        labelBestScore.setText(Localization.getLoc(Localization.BEST_SCORE));
+    }
+
+
+    private void setData() {//установка даних в GameSettings
+        numTimesPlayed.setText(GameSettings.getPlayGameTimes());
+        numBestScore.setText(GameSettings.getBestScore());
+    }
 }

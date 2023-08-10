@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.screens;
+package com.ballisticmyach.balltrajectory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -22,21 +22,20 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ballisticmyach.ball_trajectory.Main;
-import com.ballisticmyach.ball_trajectory.actors.BallActor;
-import com.ballisticmyach.ball_trajectory.actors.BlockActor;
-import com.ballisticmyach.ball_trajectory.actors.GroupBlocks;
-import com.ballisticmyach.ball_trajectory.actors.LineActor;
-import com.ballisticmyach.ball_trajectory.box2d.B2Screen;
-import com.ballisticmyach.ball_trajectory.box2d.ListenerClass;
-import com.ballisticmyach.ball_trajectory.tools.GameSettings;
-import com.ballisticmyach.ball_trajectory.tools.GameState;
-import com.ballisticmyach.ball_trajectory.utils.LabelNum;
-import com.ballisticmyach.ball_trajectory.utils.LineAngleCalculator;
-import com.ballisticmyach.ball_trajectory.tools.Localization;
+import com.ballisticmyach.balltrajectory.Main;
+import com.ballisticmyach.balltrajectory.actors.BallActor;
+import com.ballisticmyach.balltrajectory.actors.BlockActor;
+import com.ballisticmyach.balltrajectory.actors.GroupBlocks;
+import com.ballisticmyach.balltrajectory.actors.LineActor;
+import com.ballisticmyach.balltrajectory.box2d.B2Screen;
+import com.ballisticmyach.balltrajectory.box2d.ListenerClass;
+import com.ballisticmyach.balltrajectory.tools.GameSettings;
+import com.ballisticmyach.balltrajectory.tools.GameState;
+import com.ballisticmyach.balltrajectory.utils.LabelNum;
+import com.ballisticmyach.balltrajectory.utils.LineAngleCalculator;
+import com.ballisticmyach.balltrajectory.tools.Localization;
 
 import java.util.Iterator;
 

@@ -1,11 +1,11 @@
-package com.ballisticmyach.ball_trajectory.actors;
+package com.ballisticmyach.balltrajectory.actors;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
-import com.ballisticmyach.ball_trajectory.tools.GameState;
-import com.ballisticmyach.ball_trajectory.utils.MyMath;
+import com.ballisticmyach.balltrajectory.tools.GameState;
+import com.ballisticmyach.balltrajectory.utils.MyMath;
 
 import java.util.Iterator;
 

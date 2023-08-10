@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.box2d;
+package com.ballisticmyach.balltrajectory.box2d;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.ballisticmyach.ball_trajectory.Main;
-import com.ballisticmyach.ball_trajectory.actors.BallActor;
+import com.ballisticmyach.balltrajectory.Main;
+import com.ballisticmyach.balltrajectory.actors.BallActor;
 
 public class B2Ball {
 

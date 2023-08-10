@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.screens;
+package com.ballisticmyach.balltrajectory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,11 +18,11 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ballisticmyach.ball_trajectory.Main;
-import com.ballisticmyach.ball_trajectory.tools.GameSettings;
-import com.ballisticmyach.ball_trajectory.tools.Localization;
+import com.ballisticmyach.balltrajectory.Main;
+import com.ballisticmyach.balltrajectory.tools.GameSettings;
+import com.ballisticmyach.balltrajectory.tools.Localization;
 
-public class AchievScreen implements Screen {
+public class SettingsScreen implements Screen {
 
     public static final float SCREEN_WIDTH = Main.SCREEN_WIDTH;
     public static final float SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
@@ -40,18 +41,16 @@ public class AchievScreen implements Screen {
 
     //Table
     private Image returnButton;
-    private Label labelStatistics;
-    private Image starImage1;
-    private Label numTimesPlayed;
-    private Label labelTimesPlayed;
-    private Image starImage2;
-    private Label numBestScore;
-    private Label labelBestScore;
+    private Label labelSettings;
+    private Image musicOnButton;
+    private Image musicOffButton;
+    private Image enButton;
+    private Image brButton;
     private Image settingButton;
     private Image achievementsButton;
 
 
-    public AchievScreen(Main main) {
+    public SettingsScreen(Main main) {
         this.main = main;
     }
 
@@ -83,40 +82,36 @@ public class AchievScreen implements Screen {
         table.add(returnButton).padLeft(24.0f).padTop(30.0f).expandX().align(Align.topLeft).colspan(2);
 
         table.row();
-        labelStatistics = new Label("STATISTICS", skin, "font32");
-        table.add(labelStatistics).expandX().align(Align.top).colspan(2);
+        labelSettings = new Label("SETTING", skin,"font32");
+        table.add(labelSettings).expandX().align(Align.top).colspan(2);
 
         table.row();
-        Stack stack1 = new Stack();
+        HorizontalGroup horizontalGroup = new HorizontalGroup();
+        horizontalGroup.align(Align.top);
+        horizontalGroup.space(64.0f);
 
-        starImage1 = new Image(skin, "star");
-        starImage1.setScaling(Scaling.fit);
-        stack1.addActor(starImage1);
+        musicOnButton = new Image(skin, "musicOn");
+        musicOnButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(musicOnButton);
 
-        numTimesPlayed = new Label("5", skin, "font32_white_border");
-        numTimesPlayed.setAlignment(Align.center);
-        stack1.addActor(numTimesPlayed);
-        table.add(stack1).padTop(104.0f).expandX().align(Align.top).colspan(2);
-
-        table.row();
-        labelTimesPlayed = new Label("TIMES PLAYED", skin, "font32_white");
-        table.add(labelTimesPlayed).padTop(10.0f).expandX().align(Align.top).colspan(2);
+        musicOffButton = new Image(skin, "musicOff");
+        musicOffButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(musicOffButton);
+        table.add(horizontalGroup).padTop(167.0f).expandX().align(Align.top).colspan(2);
 
         table.row();
-        stack1 = new Stack();
+        horizontalGroup = new HorizontalGroup();
+        horizontalGroup.align(Align.top);
+        horizontalGroup.space(40.0f);
 
-        starImage2 = new Image(skin, "star");
-        starImage2.setScaling(Scaling.fit);
-        stack1.addActor(starImage2);
+        enButton = new Image(skin, "en");
+        enButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(enButton);
 
-        numBestScore = new Label("5", skin, "font32_white_border");
-        numBestScore.setAlignment(Align.center);
-        stack1.addActor(numBestScore);
-        table.add(stack1).padTop(86.0f).expandX().align(Align.top).colspan(2);
-
-        table.row();
-        labelBestScore = new Label("BEST SCORE", skin, "font32_white");
-        table.add(labelBestScore).padTop(10.0f).expandX().align(Align.top).colspan(2);
+        brButton = new Image(skin, "br");
+        brButton.setScaling(Scaling.fit);
+        horizontalGroup.addActor(brButton);
+        table.add(horizontalGroup).padTop(133.0f).expandX().align(Align.top).colspan(2);
 
         table.row();
         settingButton = new Image(skin, "setting");
@@ -127,7 +122,6 @@ public class AchievScreen implements Screen {
         achievementsButton.setScaling(Scaling.fit);
         table.add(achievementsButton).padRight(24.0f).padBottom(30.0f).expand().align(Align.bottomRight);
 
-        setData();
         setClickListeners();
 
         container.setActor(table);
@@ -141,6 +135,38 @@ public class AchievScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 main.setScreen(new MainMenuScreen(main));
+            }
+        });
+
+        musicOnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setMusicOn(true);
+                main.playMusic(GameSettings.getMusicOn());
+            }
+        });
+
+        musicOffButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setMusicOn(false);
+                main.playMusic(GameSettings.getMusicOn());
+            }
+        });
+
+        enButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setLanguage("en");
+                Localization.setLanguage(GameSettings.getLanguage());
+            }
+        });
+
+        brButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameSettings.setLanguage("br");
+                Localization.setLanguage(GameSettings.getLanguage());
             }
         });
 
@@ -211,14 +237,6 @@ public class AchievScreen implements Screen {
     ////////
 
     private void initLocalizedUI() {
-        labelStatistics.setText(Localization.getLoc(Localization.STATISTICS));
-        labelTimesPlayed.setText(Localization.getLoc(Localization.TIMES_PLAYED));
-        labelBestScore.setText(Localization.getLoc(Localization.BEST_SCORE));
-    }
-
-
-    private void setData() {//установка даних в GameSettings
-        numTimesPlayed.setText(GameSettings.getPlayGameTimes());
-        numBestScore.setText(GameSettings.getBestScore());
+        labelSettings.setText(Localization.getLoc(Localization.SETTINGS));
     }
 }

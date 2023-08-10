@@ -1,13 +1,13 @@
-package com.ballisticmyach.ball_trajectory.actors;
+package com.ballisticmyach.balltrajectory.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.ballisticmyach.ball_trajectory.box2d.B2Ball;
-import com.ballisticmyach.ball_trajectory.tools.GameState;
-import com.ballisticmyach.ball_trajectory.utils.VectorFromAngleAndLength;
+import com.ballisticmyach.balltrajectory.box2d.B2Ball;
+import com.ballisticmyach.balltrajectory.tools.GameState;
+import com.ballisticmyach.balltrajectory.utils.VectorFromAngleAndLength;
 
 public class BallActor extends Actor {
 

@@ -1,8 +1,7 @@
-package com.ballisticmyach.ball_trajectory;
+package com.ballisticmyach.balltrajectory;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.ballisticmyach.ball_trajectory.Main;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {

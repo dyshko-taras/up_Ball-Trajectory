@@ -1,4 +1,4 @@
-package com.ballisticmyach.ball_trajectory.actors;
+package com.ballisticmyach.balltrajectory.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
-import com.ballisticmyach.ball_trajectory.box2d.B2Block;
-import com.ballisticmyach.ball_trajectory.utils.LabelNum;
+import com.ballisticmyach.balltrajectory.box2d.B2Block;
+import com.ballisticmyach.balltrajectory.utils.LabelNum;
 
 public class BlockActor extends Actor {
     public Image image;
